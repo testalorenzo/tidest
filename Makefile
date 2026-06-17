@@ -20,8 +20,7 @@ PYTHON ?= python
         mb mb-tangram mb-plm mb-comparison mb-figure \
         gbm gbm-prep gbm-tangram gbm-plm gbm-meta gbm-comparison gbm-figure \
         hbc hbc-zarr hbc-cellplm hbc-plm hbc-comparison hbc-figure \
-        sim sim-quick sim-no-r sim-figure \
-        sim-calibration sim-sensitivity sim-stress figures
+        sim sim-quick sim-no-r sim-figure sim-sensitivity figures
 
 # ── Package & example ───────────────────────────────────────────────────────
 install:
@@ -44,7 +43,6 @@ mb-plm:
 
 mb-comparison:
 	$(PYTHON) scripts/mb_method_comparison.py
-	$(PYTHON) scripts/mb_competitor_ablation.py
 
 mb-figure:
 	$(PYTHON) scripts/mb_main_figure.py
@@ -70,7 +68,6 @@ gbm-comparison:
 
 gbm-figure:
 	$(PYTHON) scripts/gbm_main_figure.py
-	$(PYTHON) scripts/gbm_samples_figure.py
 	$(PYTHON) scripts/gbm_reproducibility_figure.py
 
 # ── HBC (Xenium breast cancer) ──────────────────────────────────────────────
@@ -103,18 +100,12 @@ sim-quick:
 sim-no-r:
 	$(PYTHON) scripts/simulation/run_sim.py --full-grid --skip-r-methods
 
-sim-calibration:
-	$(PYTHON) scripts/simulation/run_calibration.py
-	$(PYTHON) scripts/simulation/sim_calibration_figure.py
-
+# Hyperparameter sensitivity sweep → Supplementary Fig. B.2
 sim-sensitivity:
 	$(PYTHON) scripts/simulation/run_sim_sensitivity.py
 	$(PYTHON) scripts/simulation/sim_sensitivity_figure.py
 
-sim-stress:
-	$(PYTHON) scripts/simulation/run_sim_stress_tests.py
-	$(PYTHON) scripts/simulation/sim_stress_tests_figure.py
-
+# Main simulation figure (Fig. 2) + per-DGP supplementary (Fig. B.1)
 sim-figure:
 	$(PYTHON) scripts/simulation/figures.py
 	$(PYTHON) scripts/simulation/sim_dgp_figure.py

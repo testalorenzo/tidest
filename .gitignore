@@ -16,6 +16,19 @@ results_raw/
 paper/
 results/
 
+# ── Scripts not used for any paper simulation or figure (kept local only) ───
+# Published repo carries only the code behind the paper's simulations and
+# figures (main Figs 2-5; supplementary Figs B.1, B.2, C.3, D.4).
+scripts/mb_competitor_ablation.py
+scripts/gbm_samples_figure.py
+scripts/prepare_darmanis.py
+scripts/readme.md
+scripts/simulation/run_calibration.py
+scripts/simulation/sim_calibration_figure.py
+scripts/simulation/run_sim_stress_tests.py
+scripts/simulation/sim_stress_tests_figure.py
+scripts/simulation/run_edger_nb.R
+
 # ── Python build / cache ────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
