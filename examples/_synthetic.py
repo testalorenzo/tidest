@@ -17,7 +17,7 @@ Design (see the paper's simulation section for details):
 - "Imputation" adds module-structured noise (what makes the Pearson correction
   worthwhile), mimicking an imputer that misses a cell type / module.
 - A SpatialPCA surrogate ``U`` is the top eigenvectors of a Gaussian spatial
-  kernel, so the example never needs R.
+  kernel, so the example never needs R. 
 """
 
 import numpy as np
