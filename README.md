@@ -40,7 +40,7 @@ python examples/quickstart.py
 from tidest import tidest
 from _synthetic import make_dataset          # in examples/
 
-data = make_dataset(N=300, G_DE=30, G_null=70)
+data = make_dataset(N=400, G_DE=30, G_null=70)
 model = tidest(n_pcs=20, n_folds=2).fit(
     sc_adata=data["sc_adata"],
     st_adata=data["st_adata"],
@@ -53,9 +53,12 @@ model = tidest(n_pcs=20, n_folds=2).fit(
 print(model.results_)           # gene, tau, se, z, pval, qval
 ```
 
-On this synthetic example TIDEST recovers ~93% of DE genes at q<0.05 with a ~3%
-false-positive rate. See [`examples/quickstart.ipynb`](examples/quickstart.ipynb)
-for an annotated walk-through.
+On this synthetic example TIDEST recovers 90% of the DE genes at q<0.05 with a
+1% false-positive rate and the correct effect sign on every detected gene —
+versus a 70% false-positive rate for a naïve t-test under the same spatial
+confounding. See [`examples/quickstart.ipynb`](examples/quickstart.ipynb) for an
+annotated, figure-by-figure walk-through (its outputs are rendered on GitHub, so
+you can read it without running anything).
 
 ## Repository layout
 

@@ -19,7 +19,7 @@ from _synthetic import make_dataset
 
 def main():
     # 1. Build a synthetic dataset: 300 spots, 30 DE genes + 70 null genes.
-    data = make_dataset(N=300, G_DE=30, G_null=70, M=10, n_pcs=20, seed=0)
+    data = make_dataset(N=400, G_DE=30, G_null=70, M=10, n_pcs=20, seed=0)
 
     # 2. Fit TIDEST via the public API.
     #    - sc_adata  -> gene-gene Pearson matrix for the augmented outcome
