@@ -38,7 +38,7 @@ class tidest:
     n_confounder_genes : int
         Number of top-spatial-variance confounder genes passed to SpatialPCA.
     top_k : int
-        Number of Pearson neighbours used in the pseudo-outcome correction.
+        Number of Pearson neighbors used in the pseudo-outcome correction.
     spatialPCA_rscript : str or None
         Path to a custom R script for SpatialPCA. None uses the bundled
         spatialPCA_runner.R. Ignored when U is supplied to fit().

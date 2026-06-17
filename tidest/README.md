@@ -3,13 +3,13 @@
 **Testing Imputed Differential Expressions for Spatial Transcriptomics**
 
 TIDEST estimates the causal effect of a binary spatial treatment (e.g. cortical
-layer identity, tumour region, histological compartment) on gene expression. It
+layer identity, tumor region, histological compartment) on gene expression. It
 combines three ideas:
 
 1. **Augmented outcome** — imputed expression (from Tangram, CellPLM, …) is
    corrected toward the observed counts using a single-cell gene-gene Pearson
    matrix, yielding a denoised per-spot outcome.
-2. **Spatial confounder control** — spatial structure is summarised by SpatialPCA
+2. **Spatial confounder control** — spatial structure is summarized by SpatialPCA
    components (or any user-supplied confounder matrix) and a per-spot library-size
    term.
 3. **Robinson (1988) partially linear model** — cross-fitted random forests
@@ -68,7 +68,7 @@ A runnable, self-contained synthetic example (no downloads, no R) lives in
 | `cv_threshold` | 0.3 | Max CV of log-expression for a confounder-gene candidate |
 | `marker_r_thresh` | 0.3 | Max `|Pearson r|` to any outcome gene for a confounder candidate |
 | `n_confounder_genes` | 2000 | Top spatial-variance genes passed to SpatialPCA |
-| `top_k` | 5 | Pearson neighbours used in the augmented-outcome correction |
+| `top_k` | 5 | Pearson neighbors used in the augmented-outcome correction |
 | `spatialPCA_rscript` | bundled | Path to a custom SpatialPCA R script |
 | `tmp_dir` | `./tidest_tmp` | Feather exchange directory for the R subprocess |
 | `seed` | 42 | Random seed |

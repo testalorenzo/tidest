@@ -72,7 +72,7 @@ C_IBC    = '#c0392b'
 C_DCIS   = '#2980b9'
 C_NS     = '#cccccc'
 
-# Biological group colours (lollipop)
+# Biological group colors (lollipop)
 GROUP_COLORS = {
     'Luminal / DCIS':    '#2166ac',
     'Myoepithelial':     '#762a83',
@@ -369,7 +369,7 @@ if has_comp and all(m in comp_df.index for m in METHOD_ORDER):
     corr_vals = [int(comp_df.loc[m, 'n_sig_correct'])  for m in METHOD_ORDER]
     y = np.arange(len(METHOD_ORDER))
     h = 0.33
-    # Horizontal bars: grey = sig / n_genes, coloured = correct / n_known
+    # Horizontal bars: grey = sig / n_genes, colored = correct / n_known
     ax.barh(y + h/2, sig_vals,  h, color='#cccccc',
             label=f'Sig (q<0.05) / {n_genes}')
     for m, ypos, cv in zip(METHOD_ORDER, y, corr_vals):
@@ -454,7 +454,7 @@ for idx, (gene, tcol) in enumerate(SPATIAL_GENES):
     cbar.ax.tick_params(labelsize=5)
     cbar.ax.yaxis.set_major_locator(plt.MaxNLocator(3))
 
-    # Gene name: italic, bold, coloured
+    # Gene name: italic, bold, colored
     axs.text(0.5, 1.08, f'$\\it{{{gene}}}$',
              transform=axs.transAxes, fontsize=12, fontweight='bold',
              ha='center', va='bottom', color=tcol)

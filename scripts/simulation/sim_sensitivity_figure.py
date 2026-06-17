@@ -41,7 +41,7 @@ plt.rcParams.update({
 
 SWEEPS = ['top_k', 'min_corr', 'pearson_noise_sd', 'n_pcs', 'corr_threshold']
 SWEEP_TITLES = {
-    'top_k':            'Augmentation\ntop-$k$ neighbours',
+    'top_k':            'Augmentation\ntop-$k$ neighbors',
     'min_corr':         'Augmentation\ncorrelation floor',
     'pearson_noise_sd': 'Noise on SC reference\ncorrelations (SD)',
     'n_pcs':            'SpatialPCA\ncomponents',

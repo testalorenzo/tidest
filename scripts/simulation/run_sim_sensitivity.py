@@ -11,7 +11,7 @@ the augmentation step (build_pseudo_outcome) and/or the TIDEST PLM stage
 construction.
 
 Sweeps:
-  top_k            in {1, 3, 5, 10, 20}          -- augmentation neighbour count
+  top_k            in {1, 3, 5, 10, 20}          -- augmentation neighbor count
   min_corr         in {0.0, 0.1, 0.2, 0.3}       -- augmentation correlation floor
   pearson_noise_sd in {0.0, 0.05, 0.1, 0.2, 0.3} -- noise on SC reference correlations
   n_pcs            in {5, 10, 20, 50}            -- SpatialPCA components
@@ -58,7 +58,7 @@ SWEEPS = {
     'top_k':            [1, 3, 5, 10, 20],
     # Top-5 within-module correlations in this DGP have a minimum of ~0.41
     # (median ~0.65), so thresholds below ~0.4 never bind; this grid spans
-    # the region where the floor starts to drop neighbours.
+    # the region where the floor starts to drop neighbors.
     'min_corr':         [0.0, 0.3, 0.45, 0.55, 0.65],
     'pearson_noise_sd': [0.0, 0.05, 0.1, 0.2, 0.3],
     'n_pcs':            [5, 10, 20, 50],

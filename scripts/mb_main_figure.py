@@ -60,7 +60,7 @@ plt.rcParams.update({
     'ps.fonttype':       42,
 })
 
-# ── Colour palette ─────────────────────────────────────────────────────────────
+# ── Color palette ─────────────────────────────────────────────────────────────
 C_SUP     = '#C0392B'   # superficial
 C_DEEP    = '#2471A3'   # deep
 C_NS      = '#AAAAAA'   # not significant
@@ -68,7 +68,7 @@ C_CON     = '#7D3C98'   # controversy (Satb2)
 C_PLM     = '#1E8449'   # PLM-unique story (Sox5, Tshz3)
 C_INT     = '#E67E22'   # interneuron false positive
 
-# Method colours (consistent with simulation figure)
+# Method colors (consistent with simulation figure)
 MC = {
     'tidest':     '#EE6677',
     'ttest':      '#4477AA',
@@ -138,7 +138,7 @@ def _fmt_q(q):
 def _hex_scatter(ax, coords, values, cmap='RdBu_r', vmin=None, vmax=None):
     """
     Draw Visium spots as flat-top hexagonal patches.
-    Radius is estimated from the median nearest-neighbour distance.
+    Radius is estimated from the median nearest-neighbor distance.
     """
     tree = cKDTree(coords)
     dists, _ = tree.query(coords, k=2)

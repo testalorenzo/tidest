@@ -30,7 +30,7 @@ from tidest import tidest
 
 # ── Pipeline constants ─────────────────────────────────────────────────────────
 N_REPS          = 1
-TOP_K           = 5           # neighbours for Pearson correction
+TOP_K           = 5           # neighbors for Pearson correction
 CV_THRESHOLD    = 1.5         # max CV for confounder candidate genes
 MARKER_R_THRESH = 0.3         # max |Pearson r| with marker genes
 N_NONHVG        = 2000        # top spatial-variance confounder genes for SpatialPCA

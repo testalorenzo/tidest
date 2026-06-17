@@ -63,13 +63,13 @@ def build_pseudo_outcome(
     pearson_genes : list[str] or None
         Gene names (lowercase) for pearson axes. Required if pearson is given.
     top_k : int
-        Number of Pearson neighbours used for the residual correction.
+        Number of Pearson neighbors used for the residual correction.
     min_corr : float or None
-        Minimum |Pearson r| required for a candidate neighbour to be used.
-        Neighbours below this threshold are dropped (and the per-gene
-        normalization is by the number of neighbours actually retained,
+        Minimum |Pearson r| required for a candidate neighbor to be used.
+        Neighbors below this threshold are dropped (and the per-gene
+        normalization is by the number of neighbors actually retained,
         not by top_k). Default None: no thresholding (all top_k candidates
-        are used, matching the original behaviour).
+        are used, matching the original behavior).
     pred_is_log : bool
         True if pred_adata.X is already log-transformed (e.g. CellPLM output).
 
@@ -131,7 +131,7 @@ def build_pseudo_outcome(
 
     pearson_sub = pearson[np.ix_(all_sc_idx, obs_sc_idx)]  # (n_all, n_obs)
 
-    # Top-k positive Pearson neighbours per gene, optionally thresholded by min_corr
+    # Top-k positive Pearson neighbors per gene, optionally thresholded by min_corr
     top_k_actual = min(top_k, n_obs)
     if min_corr is not None:
         pearson_sub = np.where(pearson_sub >= min_corr, pearson_sub, -np.inf)

@@ -49,7 +49,7 @@ come from the GBM Visium spatial atlas deposited at NCBI GEO under accession
 Each sample is expected as a standard 10x Space Ranger output at
 `Inputs/general/GBM_data/<sample>/outs/` (loadable with `scanpy.read_visium`).
 The per-spot annotations used as the treatment (`ivygap` region: leading edge
-`LE` vs cellular tumour, plus meta-program / CNA columns) are distributed with
+`LE` vs cellular tumor, plus meta-program / CNA columns) are distributed with
 the same GEO record and stored here as `Inputs/general/visium_metadata.csv`.
 
 ## HBC (Xenium breast cancer)

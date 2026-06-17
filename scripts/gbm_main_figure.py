@@ -29,7 +29,7 @@ CMP_SUMMARY_CSV = './results_raw/gbm_method_comparison_full_summary.csv'
 CMP_PERGENE_CSV = './results_raw/gbm_method_comparison_full.csv'
 OUT_PATH = './results_raw/gbm_main_figure.pdf'
 
-# Method colours (consistent with MB/HBC/simulation comparison figures)
+# Method colors (consistent with MB/HBC/simulation comparison figures)
 MC = {
     'tidest':     '#EE6677',
     'ttest':      '#4477AA',
@@ -56,7 +56,7 @@ TEXT_GENES = {
 C_CT  = '#d73027'
 C_LE  = '#2166ac'
 
-# Cohort colours for per-sample dots
+# Cohort colors for per-sample dots
 COHORT_COLOR = {'MGH': '#e6a817', 'UKF': '#4393c3', 'ZH': '#01665e'}
 def cohort(s):
     if s.startswith('MGH'): return 'MGH'
@@ -207,7 +207,7 @@ for i, gene in enumerate(genes_ordered):
                 elinewidth=0.8, capsize=1.5,
                 zorder=5, markeredgewidth=0)
 
-# y-axis: gene labels coloured by enrichment direction (when significant)
+# y-axis: gene labels colored by enrichment direction (when significant)
 ax.set_yticks(y_pos)
 ylabels = []
 for gene in genes_ordered:
@@ -216,7 +216,7 @@ for gene in genes_ordered:
     ylabels.append(f"{gene.upper()}{star}")
 ax.set_yticklabels(ylabels, fontsize=7.5)
 
-# colour each tick label
+# color each tick label
 for tick, gene in zip(ax.get_yticklabels(), genes_ordered):
     re_row = meta_re[meta_re['gene'] == gene].iloc[0]
     if re_row['sig']:
@@ -384,7 +384,7 @@ for s_i, sample in enumerate(SAMPLES):
         col = padata[:, gene].X
         return col.toarray().ravel() if issparse(col) else np.asarray(col).ravel()
 
-    # ── Row 1: annotation (hexbin majority vote, CT/LE colours preserved) ──
+    # ── Row 1: annotation (hexbin majority vote, CT/LE colors preserved) ──
     ax = fig.add_subplot(gs_samples[0, s_i])
     region_bin = is_le.astype(float)   # 0 = CT, 1 = LE
     majority_cmap = mpl_colors.ListedColormap([C_CT, C_LE])
@@ -430,7 +430,7 @@ for s_i, sample in enumerate(SAMPLES):
                     ha='left', va='bottom', fontsize=11.5, fontweight='bold',
                     color='black')
 
-        # Colourbar
+        # Colorbar
         cbar = plt.colorbar(sc_map, ax=ax, shrink=0.55, pad=0.02,
                             orientation='vertical')
         cbar.set_label('Augmented outcome', fontsize=8)
@@ -455,7 +455,7 @@ for s_i, sample in enumerate(SAMPLES):
                                           textprops=dict(fontsize=_note_fontsize,
                                                          color=MC[mk], style='italic')))
             packer = HPacker(children=children, align='center', pad=0, sep=0)
-            # Centre on the full figure width (not the sample axes), shifted
+            # Center on the full figure width (not the sample axes), shifted
             # right by an extra 6cm per the requested offset.
             _ax_pos  = ax.get_position()
             _dx_fig  = (6.0 / 2.54) / fig.get_figwidth()

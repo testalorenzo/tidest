@@ -4,7 +4,7 @@ Single-page, two-column layout.
 
 Each column:
   Left:  TIDEST τ̂ ± 95% CI lollipop (alphabetical).
-  Right: 5 small coloured squares per gene (one per method).
+  Right: 5 small colored squares per gene (one per method).
          Significant (q < 0.05): red (superficial effect) or blue (deep effect).
          Non-significant: soft grey.
 
@@ -36,7 +36,7 @@ plt.rcParams.update({
     'ps.fonttype':     42,
 })
 
-# ── Colours ───────────────────────────────────────────────────────────────────
+# ── Colors ───────────────────────────────────────────────────────────────────
 C_SUP   = '#C0392B'
 C_DEEP  = '#2471A3'
 C_NS    = '#AAAAAA'

@@ -3,7 +3,7 @@
 **Testing Imputed Differential Expressions for Spatial Transcriptomics**
 
 TIDEST estimates the causal effect of a binary spatial treatment (cortical layer,
-tumour region, histological compartment, ...) on gene expression. It builds a
+tumor region, histological compartment, ...) on gene expression. It builds a
 Pearson-corrected *augmented outcome* from imputed expression, controls for
 spatial structure with SpatialPCA components and a library-size term, and fits a
 cross-fitted Robinson (1988) partially linear model to return an effect estimate
@@ -55,7 +55,7 @@ print(model.results_)           # gene, tau, se, z, pval, qval
 
 On this synthetic example TIDEST recovers 90% of the DE genes at q<0.05 with a
 1% false-positive rate and the correct effect sign on every detected gene —
-versus a 70% false-positive rate for a naïve t-test under the same spatial
+versus a 70% false-positive rate for a naive t-test under the same spatial
 confounding. See [`examples/quickstart.ipynb`](examples/quickstart.ipynb) for an
 annotated, figure-by-figure walk-through (its outputs are rendered on GitHub, so
 you can read it without running anything).

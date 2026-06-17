@@ -102,7 +102,7 @@ def panel_corr_matrix(ax, loadings, sc_adata, G=200, M=10):
     """
     P = _pearson_from_sc(sc_adata)   # (G, G)
 
-    # Clip diagonal for display (auto-correlation = 1 swamps colour scale)
+    # Clip diagonal for display (auto-correlation = 1 swamps color scale)
     P_display = P.copy()
     np.fill_diagonal(P_display, np.nan)
     im = ax.imshow(P_display, cmap='RdBu_r', vmin=-0.6, vmax=0.6, aspect='auto',
@@ -137,8 +137,8 @@ def _scatter_spatial(ax, coords, values, cmap, vmin, vmax, title, cbar_label,
     # odd rows offset by √3·R/2. Sized so n_side-1 columns span x=[0,1].
     n_side = int(np.ceil(np.sqrt(len(coords))))
     R  = 1.0 / ((n_side - 1) * np.sqrt(3))
-    dx = np.sqrt(3) * R   # column centre-to-centre
-    dy = 1.5 * R          # row centre-to-centre
+    dx = np.sqrt(3) * R   # column center-to-center
+    dy = 1.5 * R          # row center-to-center
 
     # Map square-grid coords → hex-lattice positions
     col_idx = np.round(coords[:, 0] * (n_side - 1)).astype(int)
@@ -167,7 +167,7 @@ def _scatter_spatial(ax, coords, values, cmap, vmin, vmax, title, cbar_label,
 
 
 def panel_treatment(ax, coords, A):
-    # Binary: one fixed colour per group, legend instead of colorbar.
+    # Binary: one fixed color per group, legend instead of colorbar.
     from matplotlib.patches import Patch as _Patch
     n_side = int(np.ceil(np.sqrt(len(coords))))
     R  = 1.0 / ((n_side - 1) * np.sqrt(3))
@@ -258,7 +258,7 @@ def panel_confounder_reconstruction(ax, coords, Z, n_pcs=20, ell=0.3):
     method that uses the spatial PCA confounder representation.
     """
     U_sp = precompute_spatial_pcs(coords, n_pcs=n_pcs, ell=ell)
-    Z_c  = Z - Z.mean()   # centre Z for clean R² computation
+    Z_c  = Z - Z.mean()   # center Z for clean R² computation
     ss_tot = float(Z_c @ Z_c)
 
     ks, r2_vals = [], []

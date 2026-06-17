@@ -149,7 +149,7 @@ def _sample_confounder(coords, confounder_type='smooth', ell=0.3, seed=0):
     confounder_type:
       'smooth'        -- Gaussian random field, length-scale ell (original DGP).
       'discontinuous' -- sharp step function along a random axis-aligned split.
-      'hotspot'       -- sum of a few narrow Gaussian bumps at random centres
+      'hotspot'       -- sum of a few narrow Gaussian bumps at random centers
                           (sparse, highly localised confounding).
       'multiscale'    -- sum of a fine-scale (ell/4) and coarse-scale (4*ell)
                           GRF, so confounding has structure at two length scales.
