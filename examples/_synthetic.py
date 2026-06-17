@@ -82,7 +82,7 @@ def generate_sc_adata(G, M, loadings, C=2000, seed=1):
 
 def generate_st_expression(coords, A, G_DE, G_null, tau_level=1.0,
                            alpha=0.5, sigma=1.0, ell=0.3, seed=3):
-    """Return Y_true (log), C_obs (Poisson counts), tau_true (per-gene truth)."""
+    """Return Y_true (log), C_obs (Poisson counts), tau_true, Z (confounder)."""
     G = G_DE + G_null
     N = len(A)
     rng = np.random.default_rng(seed)
@@ -100,7 +100,7 @@ def generate_st_expression(coords, A, G_DE, G_null, tau_level=1.0,
               + alpha * beta[None, :] * Z[:, None]
               + eps)
     C_obs = rng.poisson(np.exp(np.clip(Y_true, -5, 8))).astype(np.float32)
-    return Y_true, C_obs, tau_true
+    return Y_true, C_obs, tau_true, Z
 
 
 def simulate_imputation(Y_true, loadings, sigma_imp=1.0, seed=4):
@@ -139,12 +139,15 @@ def make_dataset(N=300, G_DE=30, G_null=70, M=10, n_pcs=20, seed=0):
       genes      : list of all gene names
       tau_true   : (G,) ground-truth effects (0 for null genes)
       is_de      : (G,) boolean mask of true DE genes
+      coords     : (N, 2) spot coordinates (for plotting)
+      Z          : (N,) latent spatial confounder field (for plotting)
+      Y_true     : (N, G) true latent log-expression (for reconstruction checks)
     """
     G = G_DE + G_null
     loadings = generate_module_loadings(G, M, seed=seed)
     coords = generate_grid(N, seed=seed)
     A = assign_treatment(coords, seed=seed + 2)
-    Y_true, C_obs, tau_true = generate_st_expression(
+    Y_true, C_obs, tau_true, Z = generate_st_expression(
         coords, A, G_DE, G_null, seed=seed + 3)
 
     gene_names = [f"gene{g}" for g in range(G)]
@@ -166,4 +169,5 @@ def make_dataset(N=300, G_DE=30, G_null=70, M=10, n_pcs=20, seed=0):
     is_de[:G_DE] = True
 
     return dict(sc_adata=sc, st_adata=st, pred_adata=pred, A=A, U=U,
-                genes=gene_names, tau_true=tau_true, is_de=is_de)
+                genes=gene_names, tau_true=tau_true, is_de=is_de,
+                coords=coords, Z=Z, Y_true=Y_true)
