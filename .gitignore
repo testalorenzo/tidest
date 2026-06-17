@@ -1,0 +1,33 @@
+# ── Raw / large data (obtain via DATA.md; never committed) ──────────────────
+Inputs/
+Xenium/
+Xenium.zarr/
+data/
+SpatialPCA-main/
+
+# ── Heavy intermediates and scratch ─────────────────────────────────────────
+tidest_tmp/
+old/
+
+# ── Generated outputs (regenerate via the Makefile) ─────────────────────────
+results_raw/
+
+# ── Paper sources & manuscript text (kept out of the public code repo) ──────
+paper/
+results/
+
+# ── Python build / cache ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# ── OS / editor / local tooling ─────────────────────────────────────────────
+.DS_Store
+.vscode/
+.idea/
+.claude/
