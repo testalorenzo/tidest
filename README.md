@@ -1,6 +1,10 @@
-# TIDEST
+<p align="center">
+  <img src="assets/tidest_logo.png" alt="TIDEST logo" width="200"/>
+</p>
 
-**Testing Imputed Differential Expressions for Spatial Transcriptomics**
+<h1 align="center">TIDEST</h1>
+
+<p align="center"><b>Testing Imputed Differential Expressions for Spatial Transcriptomics</b></p>
 
 TIDEST estimates the causal effect of a binary spatial treatment (cortical layer,
 tumor region, histological compartment, ...) on gene expression. It builds a
