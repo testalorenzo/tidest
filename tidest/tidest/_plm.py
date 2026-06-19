@@ -39,7 +39,10 @@ def robinson_plm(Y, A, U, n_folds=2, n_estimators=200, seed=42):
 
         clf = RandomForestClassifier(n_estimators=n_estimators, n_jobs=-1, random_state=seed)
         clf.fit(U[train_idx], A[train_idx])
-        A_res[val_idx] = A[val_idx] - clf.predict_proba(U[val_idx])[:, 1]
+        proba = clf.predict_proba(U[val_idx])
+        cls1_col = np.searchsorted(clf.classes_, 1)
+        p_hat = proba[:, cls1_col] if cls1_col < proba.shape[1] else np.zeros(len(val_idx))
+        A_res[val_idx] = A[val_idx] - p_hat
 
         reg = RandomForestRegressor(n_estimators=n_estimators, n_jobs=-1, random_state=seed)
         reg.fit(U[train_idx], Y[train_idx])

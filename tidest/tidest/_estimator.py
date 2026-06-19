@@ -79,6 +79,20 @@ class tidest:
         self.tmp_dir = tmp_dir
         self.seed = seed
 
+    def _screen_pcs(self, U_full, A):
+        """Drop spatial PCs whose |corr| with treatment >= corr_threshold."""
+        corr_mat = np.corrcoef(np.column_stack([U_full, A]).T)
+        pc_corrs = corr_mat[:-1, -1]
+        keep_mask = np.abs(pc_corrs) < self.corr_threshold
+        dropped = np.where(~keep_mask)[0]
+        if len(dropped):
+            print(f'  Dropped PCs (|corr|>={self.corr_threshold}): '
+                  f'{[int(d+1) for d in dropped]}, '
+                  f'corr={[round(pc_corrs[d], 3) for d in dropped]}',
+                  flush=True)
+        print(f'  Kept {keep_mask.sum()} / {len(keep_mask)} PCs', flush=True)
+        return U_full[:, keep_mask]
+
     def fit(
         self,
         sc_adata=None,
@@ -162,27 +176,12 @@ class tidest:
         if U is not None:
             print('Using user-supplied confounder matrix U.', flush=True)
             if hasattr(U, 'values'):
-                # Align rows to spot_order, then take first n_pcs columns
                 U_mat = U.loc[spot_order].values.astype(np.float64)
             else:
                 U_mat = np.asarray(U, dtype=np.float64)
             U_full = U_mat[:, :self.n_pcs]
-
-            # PC correlation screening applies to pre-supplied U too
-            pc_corrs = np.array([np.corrcoef(U_full[:, i], A)[0, 1]
-                                 for i in range(U_full.shape[1])])
-            keep_mask = np.abs(pc_corrs) < self.corr_threshold
-            dropped = np.where(~keep_mask)[0]
-            if len(dropped):
-                print(f'  Dropped PCs (|corr|>={self.corr_threshold}): '
-                      f'{[int(d+1) for d in dropped]}, '
-                      f'corr={[round(pc_corrs[d], 3) for d in dropped]}',
-                      flush=True)
-            U_arr = U_full[:, keep_mask]
-            print(f'  Kept {keep_mask.sum()} / {len(keep_mask)} PCs', flush=True)
             self.confounder_genes_ = None
         else:
-            # Outcome genes for confounder selection
             outcome_genes_lower = (
                 [g.lower() for g in genes] if genes is not None
                 else list(pseudo.var_names)
@@ -198,6 +197,11 @@ class tidest:
                 marker_r_thresh=self.marker_r_thresh,
                 n_confounder_genes=self.n_confounder_genes,
             )
+            if not self.confounder_genes_:
+                raise ValueError(
+                    "No confounder genes passed both filters. "
+                    "Consider relaxing cv_threshold or marker_r_thresh."
+                )
 
             U_df = estimate_U(
                 pseudo=pseudo,
@@ -206,27 +210,14 @@ class tidest:
                 tmp_dir=self.tmp_dir,
                 rscript_path=self.spatialPCA_rscript,
             )
-
-            # Align to pseudo spot order
             U_full = U_df.loc[spot_order].values[:, :self.n_pcs].astype(np.float64)
 
-            # PC correlation screening: drop PCs whose |corr(PC, A)| >= corr_threshold
-            pc_corrs = np.array([np.corrcoef(U_full[:, i], A)[0, 1]
-                                 for i in range(U_full.shape[1])])
-            keep_mask = np.abs(pc_corrs) < self.corr_threshold
-            dropped = np.where(~keep_mask)[0]
-            if len(dropped):
-                print(f'  Dropped PCs (|corr|>={self.corr_threshold}): '
-                      f'{[int(d+1) for d in dropped]}, '
-                      f'corr={[round(pc_corrs[d], 3) for d in dropped]}',
-                      flush=True)
-            U_arr = U_full[:, keep_mask]
-            print(f'  Kept {keep_mask.sum()} / {len(keep_mask)} PCs', flush=True)
+        # PC correlation screening: drop PCs whose |corr(PC, A)| >= corr_threshold
+        U_arr = self._screen_pcs(U_full, A)
 
         # Append log library size to absorb spot-level count differences
         X_pseudo = np.asarray(
-            pseudo[spot_order].X.toarray() if issparse(pseudo[spot_order].X)
-            else pseudo[spot_order].X
+            pseudo.X.toarray() if issparse(pseudo.X) else pseudo.X
         ).astype(np.float64)
         log_lib = np.log1p(np.expm1(X_pseudo).sum(axis=1, keepdims=True))
         U_arr = np.hstack([U_arr, log_lib])

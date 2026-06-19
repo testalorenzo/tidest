@@ -108,34 +108,36 @@ def build_pseudo_outcome(
         pred_obs = pred[:, st.var_names]
         pred_obs_mat = np.asarray(pred_obs.X.toarray() if issparse(pred_obs.X) else pred_obs.X)
         ge_obs_sums = pred_obs_mat.sum(axis=1)
-        scale = N_s / ge_obs_sums
+        zero_spots = ge_obs_sums == 0
+        if zero_spots.any():
+            print(f'  WARNING: {zero_spots.sum()} spot(s) with zero predicted expression; '
+                  f'scale set to 1 for those spots.', flush=True)
+        scale = N_s / np.where(zero_spots, 1.0, ge_obs_sums)
         pred_X = np.asarray(pred.X.toarray() if issparse(pred.X) else pred.X).astype(np.float32)
         pred.X = pred_X * scale[:, None]
 
     # Genes observed in both ST and pred
     observed_genes = pred.var_names.intersection(st.var_names)
-    n_obs = len(observed_genes)
-    n_all = pred.n_vars
-
-    # Indices into Pearson matrix
-    all_sc_idx = np.array([sc_gene_to_idx[g] for g in pred.var_names if g in sc_gene_to_idx])
-    obs_sc_idx = np.array([sc_gene_to_idx[g] for g in observed_genes if g in sc_gene_to_idx])
 
     # Keep only genes that have a Pearson index
-    pred_in_pearson_mask = np.array([g in sc_gene_to_idx for g in pred.var_names])
-    obs_in_pearson_mask = np.array([g in sc_gene_to_idx for g in observed_genes])
-    pred = pred[:, pred_in_pearson_mask].copy()
-    observed_genes = observed_genes[obs_in_pearson_mask]
+    pred = pred[:, [g in sc_gene_to_idx for g in pred.var_names]].copy()
+    observed_genes = observed_genes[[g in sc_gene_to_idx for g in observed_genes]]
     n_all = pred.n_vars
     n_obs = len(observed_genes)
 
-    pearson_sub = pearson[np.ix_(all_sc_idx, obs_sc_idx)]  # (n_all, n_obs)
+    # Pearson sub-matrix: (n_all, n_obs)
+    all_sc_idx = np.array([sc_gene_to_idx[g] for g in pred.var_names])
+    obs_sc_idx = np.array([sc_gene_to_idx[g] for g in observed_genes])
+    pearson_sub = pearson[np.ix_(all_sc_idx, obs_sc_idx)]
 
-    # Top-k positive Pearson neighbors per gene, optionally thresholded by min_corr
+    # Top-k Pearson neighbors per gene, optionally thresholded by min_corr
     top_k_actual = min(top_k, n_obs)
     if min_corr is not None:
         pearson_sub = np.where(pearson_sub >= min_corr, pearson_sub, -np.inf)
-    top_k_idx = np.argpartition(-pearson_sub, top_k_actual, axis=1)[:, :top_k_actual]
+    if top_k_actual < n_obs:
+        top_k_idx = np.argpartition(-pearson_sub, top_k_actual, axis=1)[:, :top_k_actual]
+    else:
+        top_k_idx = np.tile(np.arange(n_obs), (n_all, 1))
     weights = pearson_sub[np.arange(n_all)[:, None], top_k_idx]  # (n_all, top_k)
 
     if min_corr is not None:
