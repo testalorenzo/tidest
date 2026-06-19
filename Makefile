@@ -6,9 +6,8 @@
 #   make install      install the tidest package (editable)
 #   make vignette     run the self-contained synthetic quick-start
 #   make test         run the smoke test
-#   make mb|gbm|hbc   run a full real-data pipeline (analysis + figures)
+#   make mb|gbm|hbc   run a full real-data pipeline
 #   make sim          run the full simulation grid
-#   make figures      regenerate every paper figure
 #   make all          everything (heavy; needs all data downloaded)
 #
 # See DATA.md for how to obtain the raw data and REPRODUCE.md for run order,
@@ -17,10 +16,11 @@
 PYTHON ?= python
 
 .PHONY: all install test vignette clean \
-        mb mb-tangram mb-plm mb-comparison mb-figure \
-        gbm gbm-prep gbm-tangram gbm-plm gbm-meta gbm-comparison gbm-figure \
-        hbc hbc-zarr hbc-cellplm hbc-plm hbc-comparison hbc-figure \
-        sim sim-quick sim-no-r sim-figure sim-sensitivity figures
+        mb mb-tangram mb-plm \
+        gbm gbm-prep gbm-tangram gbm-plm gbm-comparison \
+        hbc hbc-zarr hbc-cellplm hbc-plm \
+        sim sim-quick sim-no-r sim-sensitivity \
+        install-r-deps
 
 # ── Package & example ───────────────────────────────────────────────────────
 install:
@@ -33,7 +33,7 @@ test:
 	$(PYTHON) tests/test_smoke.py
 
 # ── Mouse brain (MB) ────────────────────────────────────────────────────────
-mb: mb-tangram mb-plm mb-comparison mb-figure
+mb: mb-tangram mb-plm
 
 mb-tangram:
 	$(PYTHON) scripts/mb_tangram_raw.py
@@ -41,15 +41,8 @@ mb-tangram:
 mb-plm:
 	$(PYTHON) scripts/mb_plm.py
 
-mb-comparison:
-	$(PYTHON) scripts/mb_method_comparison.py
-
-mb-figure:
-	$(PYTHON) scripts/mb_main_figure.py
-	$(PYTHON) scripts/mb_supplementary_figure.py
-
 # ── GBM ─────────────────────────────────────────────────────────────────────
-gbm: gbm-tangram gbm-plm gbm-meta gbm-comparison gbm-figure
+gbm: gbm-tangram gbm-plm gbm-comparison
 
 gbm-prep:
 	$(PYTHON) preprocessing/prepare_darmanis_gbm.py
@@ -60,18 +53,11 @@ gbm-tangram:
 gbm-plm:
 	$(PYTHON) scripts/gbm_plm.py
 
-gbm-meta:
-	$(PYTHON) scripts/gbm_meta_analysis.py
-
 gbm-comparison:
 	$(PYTHON) scripts/gbm_method_comparison_full.py
 
-gbm-figure:
-	$(PYTHON) scripts/gbm_main_figure.py
-	$(PYTHON) scripts/gbm_reproducibility_figure.py
-
 # ── HBC (Xenium breast cancer) ──────────────────────────────────────────────
-hbc: hbc-cellplm hbc-plm hbc-comparison hbc-figure
+hbc: hbc-cellplm hbc-plm
 
 # Build the SpatialData zarr from raw Xenium output (needs CellPLM env; see DATA.md)
 hbc-zarr:
@@ -82,12 +68,6 @@ hbc-cellplm:
 
 hbc-plm:
 	$(PYTHON) scripts/hbc_plm.py
-
-hbc-comparison:
-	$(PYTHON) scripts/hbc_method_comparison.py
-
-hbc-figure:
-	$(PYTHON) scripts/hbc_main_figure.py
 
 # ── Simulation study ────────────────────────────────────────────────────────
 sim:
@@ -100,20 +80,12 @@ sim-quick:
 sim-no-r:
 	$(PYTHON) scripts/simulation/run_sim.py --full-grid --skip-r-methods
 
-# Hyperparameter sensitivity sweep → Supplementary Fig. B.2
+# Hyperparameter sensitivity sweep
 sim-sensitivity:
 	$(PYTHON) scripts/simulation/run_sim_sensitivity.py
-	$(PYTHON) scripts/simulation/sim_sensitivity_figure.py
-
-# Main simulation figure (Fig. 2) + per-DGP supplementary (Fig. B.1)
-sim-figure:
-	$(PYTHON) scripts/simulation/figures.py
-	$(PYTHON) scripts/simulation/sim_dgp_figure.py
 
 # ── Aggregate ───────────────────────────────────────────────────────────────
-figures: mb-figure gbm-figure hbc-figure sim-figure
-
-all: mb gbm hbc sim sim-figure
+all: mb gbm hbc sim
 
 clean:
 	rm -rf tidest_tmp/*.feather

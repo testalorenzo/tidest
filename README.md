@@ -14,7 +14,7 @@ cross-fitted Robinson (1988) partially linear model to return an effect estimate
 `tau`, a sandwich standard error, and BH-adjusted q-values per gene.
 
 This repository contains the `tidest` Python package and everything needed to
-reproduce the paper's analyses, simulations, and figures.
+reproduce the paper's analyses and simulations.
 
 ## Install
 
@@ -70,25 +70,24 @@ you can read it without running anything).
 |---|---|
 | [`tidest/`](tidest/) | the installable `tidest` package (+ its own README) |
 | [`examples/`](examples/) | self-contained synthetic quick-start (script + notebook) |
-| [`scripts/`](scripts/) | analysis pipelines (MB, GBM, HBC) and figure scripts |
+| [`scripts/`](scripts/) | analysis pipelines (MB, GBM, HBC) |
 | [`scripts/simulation/`](scripts/simulation/) | the simulation study |
 | [`preprocessing/`](preprocessing/) | scripts that build the raw-data inputs |
 | [`tests/`](tests/) | smoke test |
-| [`Makefile`](Makefile) | one entry point for every analysis and figure |
+| [`Makefile`](Makefile) | one entry point for every analysis |
 
 ## Reproduce the paper
 
 - **Data:** [`DATA.md`](DATA.md) — original public sources and preprocessing.
-- **Analyses & figures:** [`REPRODUCE.md`](REPRODUCE.md) — run order, expected
-  outputs, and headline numbers, all driven by the [`Makefile`](Makefile).
+- **Analyses:** [`REPRODUCE.md`](REPRODUCE.md) — run order, expected outputs,
+  and headline numbers, all driven by the [`Makefile`](Makefile).
 
 ```bash
 make vignette     # synthetic sanity check (no data)
-make mb           # mouse-brain pipeline + figures
-make gbm          # GBM pipeline + figures
-make hbc          # HBC (Xenium) pipeline + figures
+make mb           # mouse-brain pipeline
+make gbm          # GBM pipeline
+make hbc          # HBC (Xenium) pipeline
 make sim          # simulation study
-make figures      # regenerate every figure
 ```
 
 ## Citation
