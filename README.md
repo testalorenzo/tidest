@@ -92,7 +92,9 @@ make sim          # simulation study
 
 ## Citation
 
-If you use TIDEST, please cite the accompanying paper (citation to be added).
+If you use TIDEST, please cite the accompanying paper:
+
+> Testa L. et al. *TIDEST: Testing Imputed Differential Expressions for Spatial Transcriptomics.* bioRxiv (2026). https://www.biorxiv.org/content/10.64898/2026.06.19.733432v1
 
 ## License
 
