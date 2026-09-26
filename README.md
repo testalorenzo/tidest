@@ -94,7 +94,7 @@ make sim          # simulation study
 
 If you use TIDEST, please cite the accompanying paper:
 
-> Testa L. et al. *TIDEST: Testing Imputed Differential Expressions for Spatial Transcriptomics.* bioRxiv (2026). https://www.biorxiv.org/content/10.64898/2026.06.19.733432v1
+> Testa L., Lei J., Roeder K., *Accurate prediction in reconstructed spatial transcriptomes does not ensure valid biological discovery* bioRxiv (2026). https://www.biorxiv.org/content/10.64898/2026.06.19.733432
 
 ## License
 
