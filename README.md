@@ -6,7 +6,7 @@
 
 <p align="center"><b>Testing Imputed Differential Expressions for Spatial Transcriptomics</b></p>
 
-TIDEST estimates the causal effect of a binary spatial treatment (cortical layer,
+TIDEST estimates the effect of a binary spatial treatment (cortical layer,
 tumor region, histological compartment, ...) on gene expression. It builds a
 Pearson-corrected *augmented outcome* from imputed expression, controls for
 spatial structure with SpatialPCA components and a library-size term, and fits a
